@@ -70,7 +70,7 @@ public class JdbcUserDao implements UserDao {
             newUserId = jdbcTemplate.queryForObject(sql, Integer.class, username, password_hash);
 
             if(newUserId > 1000) {
-                newAcctId = jdbcTemplate.queryForObject(sql, Integer.class, newUserId, STARTING_BALANCE);
+                newAcctId = jdbcTemplate.queryForObject(sqlAccount, Integer.class, newUserId, STARTING_BALANCE);
                 Account account = new Account(newAcctId, STARTING_BALANCE, newUserId);
             }
 
