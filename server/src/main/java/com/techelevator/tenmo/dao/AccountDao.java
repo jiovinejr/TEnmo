@@ -9,7 +9,7 @@ public interface AccountDao {
 
     Account create();
 
-    double showCurrentBalance(Principal principal);
+    double showCurrentBalance(int id);
 
     double creditAccount();
 

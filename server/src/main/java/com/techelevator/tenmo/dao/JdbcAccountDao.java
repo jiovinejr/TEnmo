@@ -21,13 +21,13 @@ public class JdbcAccountDao implements AccountDao{
     }
 
     @Override
-    public double showCurrentBalance(Principal principal) {
+    public double showCurrentBalance(int id) {
         String sql = "SELECT balance FROM account" +
-                " JOIN tenmo_user ON account.user_id = tenmo_user.user_id" +
-                " WHERE username = ?";
+               // " JOIN tenmo_user ON account.user_id = tenmo_user.user_id" +
+                " WHERE user_id = ?";
         double balance = 0;
         try {
-            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, principal.getName());
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id);
             Account temp = mapRowToAcct(result);
             balance = temp.getBalance();
         } catch (DataAccessException e) {

@@ -51,4 +51,16 @@ CREATE TABLE transfer (
 	
 );
 
+INSERT INTO tenmo_user (username, password_hash)
+	VALUES ('Jimmy', '$2a$10$J1FuVz.tGMF0VacHm7RnjuWN9eaO/9Lrb0yittqg5qJ3cOvYGiRK.');
+INSERT INTO tenmo_user (username, password_hash)
+	VALUES ('Chrysti', '$2a$10$J1FuVz.tGMF0VacHm7RnjuWN9eaO/9Lrb0yittqg5qJ3cOvYGiRK.');	
+INSERT INTO tenmo_user (username, password_hash)
+	VALUES ('Eric', '$2a$10$J1FuVz.tGMF0VacHm7RnjuWN9eaO/9Lrb0yittqg5qJ3cOvYGiRK.');
+INSERT INTO tenmo_user (username, password_hash)
+	VALUES ('Captain Jack', '$2a$10$SoR0qdg.Pfb.P91dWikHGeXkQQIlGzatwVi8C9TE4VHn.ciMWVixO');
+
+
 COMMIT;
+
+SELECT * FROM tenmo_user;
