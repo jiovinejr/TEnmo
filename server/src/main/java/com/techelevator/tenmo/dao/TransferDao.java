@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface TransferDao {
 
-    boolean validateTransfer(Transfer transfer);
-
     List<Transfer> findTransfersByUserId();
 
     Transfer findTransferByTransferId(int transferId);

@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Account;
+import com.techelevator.tenmo.model.Transfer;
 
 import java.math.BigDecimal;
 import java.security.Principal;
@@ -12,12 +13,13 @@ public interface AccountDao {
 
     BigDecimal showCurrentBalance(String username);
 
-    BigDecimal creditAccount();
+    BigDecimal creditAccount(Transfer transfer);
 
-    BigDecimal debitAccount();
+    BigDecimal debitAccount(Transfer transfer);
 
     BigDecimal findAccountBalanceByUserId(int userId);
 
 
 
 }
+
