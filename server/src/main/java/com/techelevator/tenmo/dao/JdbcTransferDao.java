@@ -14,8 +14,9 @@ import java.util.List;
 public class JdbcTransferDao implements TransferDao {
 
     private JdbcTemplate jdbcTemplate = new JdbcTemplate();
-    private UserDao userDao;
-    private AccountDao accountDao;
+//    private UserDao userDao;
+//    private AccountDao accountDao; {
+//    };
 
     public JdbcTransferDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -23,15 +24,14 @@ public class JdbcTransferDao implements TransferDao {
 
 
     @Override
-    public boolean validateTransfer(BigDecimal transferAmount) {
-        boolean isValid = false;
-        Account account = new Account();
-        BigDecimal currentUserBalance = account.getBalance();
-
-        if (currentUserBalance.compareTo(transferAmount) > 0) {
-            isValid = true;
-        } //TODO
-        return true;
+    public boolean validateTransfer(Transfer transfer) {
+//        boolean isValid = false;
+//        BigDecimal senderBalance = accountDao.findAccountBalanceByUserId(transfer.getSenderUserId());
+//
+//        if (senderBalance.compareTo(transfer.getTransferAmount()) > 0) {
+//            isValid = true;
+//        } //TODO
+//        return isValid;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class JdbcTransferDao implements TransferDao {
     @Override
     public Transfer createTransfer(Transfer transfer) {
         System.out.println("Hi");
-        //if(validateTransfer(transfer.getTransferAmount())) {
+        if(validateTransfer(transfer)) {
             System.out.println("Hello again");
            String sql = "INSERT INTO transfer (user_id, sender_account_id, receiver_account_id, transfer_amount)" +
                    " VALUES (?, ?, ?, ?) RETURNING transfer_id";
@@ -61,7 +61,10 @@ public class JdbcTransferDao implements TransferDao {
                //TODO
               e.printStackTrace();
            }
-        //}
+        } else {
+            System.out.println("Fucked");
+            //TODO
+        }
         return transfer;
     }
 }

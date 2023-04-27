@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TransferDao {
 
-    boolean validateTransfer(BigDecimal transferAmount);
+    boolean validateTransfer(Transfer transfer);
 
     List<Transfer> findTransfersByUserId();
 

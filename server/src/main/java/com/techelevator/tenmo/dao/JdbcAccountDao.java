@@ -48,21 +48,20 @@ public class JdbcAccountDao implements AccountDao{
     }
 
     @Override
-    public int findAccountByUserId(int userId) {
-        String sql = "SELECT account_id FROM account " +
+    public BigDecimal findAccountBalanceByUserId(int userId) {
+        String sql = "SELECT balance FROM account " +
                 " WHERE user_id = ?";
-        SqlRowSet result;
-
+        BigDecimal balance = new BigDecimal("0.00");
         try{
-            result = jdbcTemplate.queryForRowSet(sql,userId);
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql,userId);
             if(result.next()) {
-                return result.getInt("account_id");
+                balance = result.getBigDecimal("balance");
             }
         } catch (Exception e) {
             //TODO
             System.out.println("this is fucked");
         }
-        return 0;
+        return balance;
     }
 
 

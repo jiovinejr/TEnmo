@@ -24,11 +24,11 @@ public class UserController {
     }
 
     //TODO double check that username is not too sensitive of data, may need to fish out ID to complete
-    @PreAuthorize("permitAll")
-    @GetMapping(path = "/{username}/balance")
-    public BigDecimal getUserAccountBalance(@PathVariable String username) {
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping(path = "/balance")
+    public BigDecimal getUserAccountBalance(Principal principal) {
         BigDecimal balance = new BigDecimal("0.00");
-        balance = accountDao.showCurrentBalance(username);
+        balance = accountDao.showCurrentBalance(principal.getName());
         return balance;
     }
 

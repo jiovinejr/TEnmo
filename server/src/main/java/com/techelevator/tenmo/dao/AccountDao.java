@@ -16,7 +16,7 @@ public interface AccountDao {
 
     BigDecimal debitAccount();
 
-    int findAccountByUserId(int userId);
+    BigDecimal findAccountBalanceByUserId(int userId);
 
 
 
