@@ -59,8 +59,13 @@ INSERT INTO tenmo_user (username, password_hash)
 	VALUES ('Eric', '$2a$10$J1FuVz.tGMF0VacHm7RnjuWN9eaO/9Lrb0yittqg5qJ3cOvYGiRK.');
 INSERT INTO tenmo_user (username, password_hash)
 	VALUES ('Captain Jack', '$2a$10$SoR0qdg.Pfb.P91dWikHGeXkQQIlGzatwVi8C9TE4VHn.ciMWVixO');
-
+	
+INSERT INTO account (user_id, balance)
+	VALUES (1001, 1000.00),
+		(1002, 10.00),
+		(1003, 1000.0),
+		(1004, 200.00);
 
 COMMIT;
 
-SELECT * FROM tenmo_user;
+SELECT * FROM account;

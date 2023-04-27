@@ -4,9 +4,11 @@ import com.techelevator.tenmo.model.Account;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import java.security.Principal;
 
+@Component
 public class JdbcAccountDao implements AccountDao{
 
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
@@ -20,14 +22,15 @@ public class JdbcAccountDao implements AccountDao{
         return null;
     }
 
+
     @Override
-    public double showCurrentBalance(int id) {
+    public double showCurrentBalance(String username) {
         String sql = "SELECT balance FROM account" +
-               // " JOIN tenmo_user ON account.user_id = tenmo_user.user_id" +
-                " WHERE user_id = ?";
-        double balance = 0;
+                " JOIN tenmo_user ON account.user_id = tenmo_user.user_id" +
+                " WHERE username = ?";
+        double balance = 0.00;
         try {
-            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id);
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, username);
             Account temp = mapRowToAcct(result);
             balance = temp.getBalance();
         } catch (DataAccessException e) {
