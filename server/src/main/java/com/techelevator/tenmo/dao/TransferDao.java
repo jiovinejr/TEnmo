@@ -2,16 +2,19 @@ package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Transfer;
 
+import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.List;
 
 public interface TransferDao {
 
-    boolean validateTransfer();
+    boolean validateTransfer(BigDecimal transferAmount);
 
     List<Transfer> findTransfersByUserId();
 
-    List<Transfer> findTransferByTransferId();
+    Transfer findTransferByTransferId(int transferId);
 
-    Transfer createTransfer();
+    Transfer createTransfer(BigDecimal transferAmount, String receiverName, Principal principal);
+
 
 }

@@ -62,7 +62,7 @@ public class JdbcUserDao implements UserDao {
         String sql = "INSERT INTO tenmo_user (username, password_hash) VALUES (?, ?) RETURNING user_id";
         String password_hash = new BCryptPasswordEncoder().encode(password);
         Integer newUserId;
-        final double STARTING_BALANCE = 1000.00;
+        final BigDecimal STARTING_BALANCE = new BigDecimal("1000.00");
         String sqlAccount = "INSERT INTO account (user_id, balance) VALUES (?, ?) RETURNING account_id";
         int newAcctId;
 

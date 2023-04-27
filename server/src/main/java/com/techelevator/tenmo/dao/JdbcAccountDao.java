@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 
 @Component
@@ -24,35 +25,52 @@ public class JdbcAccountDao implements AccountDao{
 
 
     @Override
-    public double showCurrentBalance(String username) {
+    public BigDecimal showCurrentBalance(String username) {
         String sql = "SELECT balance FROM account" +
                 " JOIN tenmo_user ON account.user_id = tenmo_user.user_id" +
                 " WHERE username = ?";
-        double balance = 0.00;
-        try {
+        BigDecimal balance = new BigDecimal("0.00");
             SqlRowSet result = jdbcTemplate.queryForRowSet(sql, username);
-            Account temp = mapRowToAcct(result);
-            balance = temp.getBalance();
-        } catch (DataAccessException e) {
-            return 0.00;
-        } return balance;
+            if (result.next()) {
+                balance = result.getBigDecimal("balance");
+            }
+         return balance;
     }
 
     @Override
-    public double creditAccount() {
-        return 0;
+    public BigDecimal creditAccount() {
+        return null;
     }
 
     @Override
-    public double debitAccount() {
+    public BigDecimal debitAccount() {
+        return null;
+    }
+
+    @Override
+    public int findAccountByUserId(int userId) {
+        String sql = "SELECT account_id FROM account " +
+                " WHERE user_id = ?";
+        SqlRowSet result;
+
+        try{
+            result = jdbcTemplate.queryForRowSet(sql,userId);
+            if(result.next()) {
+                return result.getInt("account_id");
+            }
+        } catch (Exception e) {
+            //TODO
+            System.out.println("this is fucked");
+        }
         return 0;
     }
+
 
     private Account mapRowToAcct(SqlRowSet rowSet) {
         Account account = new Account();
-        account.setAccount_id(rowSet.getInt("account_id"));
-        account.setBalance(rowSet.getDouble("balance"));
-        account.setUser_id(rowSet.getInt("user_id"));
+        account.setAccountId(rowSet.getInt("account_id"));
+        account.setUserId(rowSet.getInt("user_id"));
+        account.setBalance(rowSet.getBigDecimal("balance"));
         return account;
     }
 

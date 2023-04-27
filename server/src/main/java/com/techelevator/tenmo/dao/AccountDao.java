@@ -2,6 +2,7 @@ package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Account;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 
@@ -9,10 +10,14 @@ public interface AccountDao {
 
     Account create();
 
-    double showCurrentBalance(String username);
+    BigDecimal showCurrentBalance(String username);
 
-    double creditAccount();
+    BigDecimal creditAccount();
 
-    double debitAccount();
+    BigDecimal debitAccount();
+
+    int findAccountByUserId(int userId);
+
+
 
 }
