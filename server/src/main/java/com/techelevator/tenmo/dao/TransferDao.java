@@ -14,7 +14,7 @@ public interface TransferDao {
 
     Transfer findTransferByTransferId(int transferId);
 
-    Transfer createTransfer(BigDecimal transferAmount, String receiverName, Principal principal);
+    Transfer createTransfer(Transfer transfer);
 
 
 }

@@ -1,11 +1,10 @@
 package com.techelevator.tenmo.controller;
 
 import com.techelevator.tenmo.dao.*;
+import com.techelevator.tenmo.model.Transfer;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.security.Principal;
@@ -31,5 +30,11 @@ public class UserController {
         BigDecimal balance = new BigDecimal("0.00");
         balance = accountDao.showCurrentBalance(username);
         return balance;
+    }
+
+    @PreAuthorize("permitAll")
+    @PostMapping(path = "/transfer")
+    public Transfer transfer(@RequestBody Transfer transfer) {
+        return transferDao.createTransfer(transfer);
     }
 }

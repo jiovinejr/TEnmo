@@ -1,42 +1,31 @@
 package com.techelevator.tenmo.model;
 
+import java.math.BigDecimal;
+
 public class Transfer {
 
     int transferId;
-    double transferAmount;
-    String senderUserId;
-    String senderName;
-    String receiverUserId;
-    String receiverName;
-    boolean validTransfer;
+    BigDecimal transferAmount;
+    int senderUserId;
+    int senderAccountId;
+    int receiverAccountId;
 
     public Transfer() {
     }
 
-    public Transfer(double transferAmount, String senderUserId, String receiverUserId, boolean validTransfer) {
-        this.transferAmount = transferAmount;
-        this.senderUserId = senderUserId;
-        this.receiverUserId = receiverUserId;
-        this.validTransfer = validTransfer;
-    }
-
-    public Transfer(double transferAmount, String senderUserId, String senderName, String receiverUserId, String receiverName, boolean validTransfer) {
-        this.transferAmount = transferAmount;
-        this.senderUserId = senderUserId;
-        this.senderName = senderName;
-        this.receiverUserId = receiverUserId;
-        this.receiverName = receiverName;
-        this.validTransfer = validTransfer;
-    }
-
-    public Transfer(int transferId, double transferAmount, String senderUserId, String senderName, String receiverUserId, String receiverName, boolean validTransfer) {
+    public Transfer(int transferId, BigDecimal transferAmount, int senderUserId, int senderAccountId, int receiverAccountId) {
         this.transferId = transferId;
         this.transferAmount = transferAmount;
         this.senderUserId = senderUserId;
-        this.senderName = senderName;
-        this.receiverUserId = receiverUserId;
-        this.receiverName = receiverName;
-        this.validTransfer = validTransfer;
+        this.senderAccountId = senderAccountId;
+        this.receiverAccountId = receiverAccountId;
+    }
+
+    public Transfer(BigDecimal transferAmount, int senderUserId, int senderAccountId, int receiverAccountId) {
+        this.transferAmount = transferAmount;
+        this.senderUserId = senderUserId;
+        this.senderAccountId = senderAccountId;
+        this.receiverAccountId = receiverAccountId;
     }
 
     public int getTransferId() {
@@ -47,52 +36,36 @@ public class Transfer {
         this.transferId = transferId;
     }
 
-    public double getTransferAmount() {
+    public BigDecimal getTransferAmount() {
         return transferAmount;
     }
 
-    public void setTransferAmount(double transferAmount) {
+    public void setTransferAmount(BigDecimal transferAmount) {
         this.transferAmount = transferAmount;
     }
 
-    public String getSenderUserId() {
+    public int getSenderUserId() {
         return senderUserId;
     }
 
-    public void setSenderUserId(String senderUserId) {
+    public void setSenderUserId(int senderUserId) {
         this.senderUserId = senderUserId;
     }
 
-    public String getSenderName() {
-        return senderName;
+    public int getSenderAccountId() {
+        return senderAccountId;
     }
 
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
+    public void setSenderAccountId(int senderAccountId) {
+        this.senderAccountId = senderAccountId;
     }
 
-    public String getReceiverUserId() {
-        return receiverUserId;
+    public int getReceiverAccountId() {
+        return receiverAccountId;
     }
 
-    public void setReceiverUserId(String receiverUserId) {
-        this.receiverUserId = receiverUserId;
-    }
-
-    public String getReceiverName() {
-        return receiverName;
-    }
-
-    public void setReceiverName(String receiverName) {
-        this.receiverName = receiverName;
-    }
-
-    public boolean isValidTransfer() {
-        return validTransfer;
-    }
-
-    public void setValidTransfer(boolean validTransfer) {
-        this.validTransfer = validTransfer;
+    public void setReceiverAccountId(int receiverAccountId) {
+        this.receiverAccountId = receiverAccountId;
     }
 
     @Override
@@ -100,11 +73,9 @@ public class Transfer {
         return "Transfer{" +
                 "transferId=" + transferId +
                 ", transferAmount=" + transferAmount +
-                ", senderUserId='" + senderUserId + '\'' +
-                ", senderName='" + senderName + '\'' +
-                ", receiverUserId='" + receiverUserId + '\'' +
-                ", receiverName='" + receiverName + '\'' +
-                ", validTransfer=" + validTransfer +
+                ", senderUserId=" + senderUserId +
+                ", senderAccountId=" + senderAccountId +
+                ", receiverAccountId=" + receiverAccountId +
                 '}';
     }
 }
