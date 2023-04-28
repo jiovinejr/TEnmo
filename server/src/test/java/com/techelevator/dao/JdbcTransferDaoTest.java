@@ -22,11 +22,11 @@ public class JdbcTransferDaoTest extends BaseDaoTests{
         sut = new JdbcTransferDao(jdbcTemplate);
     }
 
-    @Test
-    public void validateTransferTest() {
-        Transfer transfer = new Transfer(new BigDecimal("50.00"), 1001, 2001,2002);
-        boolean isValid = sut.validateTransfer(transfer);
-        Assert.assertTrue(isValid);
-    }
+//    @Test
+//    public void validateTransferTest() {
+//        Transfer transfer = new Transfer(new BigDecimal("50.00"), 1001, 2001,2002);
+//        boolean isValid = sut.validateTransfer(transfer);
+//        Assert.assertTrue(isValid);
+//    }
 
 }

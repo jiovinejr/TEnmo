@@ -7,11 +7,13 @@ import com.techelevator.tenmo.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -44,9 +46,11 @@ public class UserController {
     }
 
     //TODO updated this***
+    //@Transactional
     @PreAuthorize("isAuthenticated()")
     @PostMapping(path = "/transfer")
     public Transfer transfer(@RequestBody Transfer transfer) {
+        System.out.println(transfer);
         if (transfer.getSenderAccountId() != transfer.getReceiverAccountId()) {
             // senderbalance > transferAmount
             if (accountDao.validateTransfer(transfer)) {
@@ -54,10 +58,18 @@ public class UserController {
                 accountDao.debitAccount(transfer);
                 return transferDao.createTransfer(transfer);
             } else {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Insufficient Funds");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Insufficient Funds or Invalid transfer amount");
             }
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot process request (same account)");
         }
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping(path = "/my-transfers")
+    public List<Transfer> myTransfers(Principal principal) {
+
+        int userId = userDao.findIdByUsername(principal.getName());
+        return transferDao.findTransfersByUserId(userId);
     }
 }

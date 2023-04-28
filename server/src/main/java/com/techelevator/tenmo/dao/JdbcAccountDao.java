@@ -77,7 +77,7 @@ public class JdbcAccountDao implements AccountDao{
     public boolean validateTransfer(Transfer transfer) {
         boolean isValid = false;
         BigDecimal senderBalance = findAccountBalanceByUserId(transfer.getSenderUserId());
-        if (senderBalance.compareTo(transfer.getTransferAmount()) >= 0) {
+        if (senderBalance.compareTo(transfer.getTransferAmount()) >= 0 && transfer.getTransferAmount().compareTo(new BigDecimal("0")) > 0) {
             isValid = true;
         }
         return isValid;
