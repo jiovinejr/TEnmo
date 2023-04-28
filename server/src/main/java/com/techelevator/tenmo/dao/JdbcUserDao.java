@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class JdbcUserDao implements UserDao {
         }
         return users;
     }
-    //TODO updated this***
+
     @Override
     public List<String> listUsersForTransfer(String username) {
         List<String> usernames = new ArrayList<>();
@@ -68,28 +69,32 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
-    public boolean create(String username, String password) {
+    public boolean create(@Valid String username, @Valid String password) {
+        if(!username.isBlank() && !password.isBlank()) {
+            // create user
+            String sql = "INSERT INTO tenmo_user (username, password_hash) VALUES (?, ?) RETURNING user_id";
+            String password_hash = new BCryptPasswordEncoder().encode(password);
+            Integer newUserId;
+            final BigDecimal STARTING_BALANCE = new BigDecimal("1000.00");
+            String sqlAccount = "INSERT INTO account (user_id, balance) VALUES (?, ?) RETURNING account_id";
+            int newAcctId;
 
-        // create user
-        String sql = "INSERT INTO tenmo_user (username, password_hash) VALUES (?, ?) RETURNING user_id";
-        String password_hash = new BCryptPasswordEncoder().encode(password);
-        Integer newUserId;
-        final BigDecimal STARTING_BALANCE = new BigDecimal("1000.00");
-        String sqlAccount = "INSERT INTO account (user_id, balance) VALUES (?, ?) RETURNING account_id";
-        int newAcctId;
+            try {
+                newUserId = jdbcTemplate.queryForObject(sql, Integer.class, username, password_hash);
 
-        try {
-            newUserId = jdbcTemplate.queryForObject(sql, Integer.class, username, password_hash);
+                if (newUserId > 1000) {
+                    newAcctId = jdbcTemplate.queryForObject(sqlAccount, Integer.class, newUserId, STARTING_BALANCE);
+                    Account account = new Account(newAcctId, STARTING_BALANCE, newUserId);
+                }
 
-            if(newUserId > 1000) {
-                newAcctId = jdbcTemplate.queryForObject(sqlAccount, Integer.class, newUserId, STARTING_BALANCE);
-                Account account = new Account(newAcctId, STARTING_BALANCE, newUserId);
+            } catch (DataAccessException e) {
+                return false;
             }
-
-        } catch (DataAccessException e) {
+            return true;
+        } else {
+            System.out.println("Invalid username or password");
             return false;
         }
-        return true;
     }
 
     private User mapRowToUser(SqlRowSet rs) {

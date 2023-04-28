@@ -11,6 +11,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JdbcTransferDaoTest extends BaseDaoTests{
 
@@ -22,11 +24,11 @@ public class JdbcTransferDaoTest extends BaseDaoTests{
         sut = new JdbcTransferDao(jdbcTemplate);
     }
 
-//    @Test
-//    public void validateTransferTest() {
-//        Transfer transfer = new Transfer(new BigDecimal("50.00"), 1001, 2001,2002);
-//        boolean isValid = sut.validateTransfer(transfer);
-//        Assert.assertTrue(isValid);
-//    }
+    @Test
+    public void findTransfersByUserId(){
+        List<Transfer> listOfTransfers = new ArrayList<>();
+        listOfTransfers = sut.findTransfersByUserId(1001);
+        Assert.assertEquals(0, listOfTransfers.size());
+    }
 
 }
