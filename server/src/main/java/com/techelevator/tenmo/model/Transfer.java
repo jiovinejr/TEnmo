@@ -15,6 +15,13 @@ public class Transfer {
     public Transfer() {
     }
 
+    public Transfer(int transferId, BigDecimal transferAmount, int senderAccountId, String receiverUserName, int receiverAccountId) {
+        this.transferId = transferId;
+        this.transferAmount = transferAmount;
+        this.senderAccountId = senderAccountId;
+        this.receiverUserName = receiverUserName;
+        this.receiverAccountId = receiverAccountId;
+    }
 
     public Transfer(BigDecimal transferAmount, String senderUserName, String receiverUserName) {
         this.transferAmount = transferAmount;

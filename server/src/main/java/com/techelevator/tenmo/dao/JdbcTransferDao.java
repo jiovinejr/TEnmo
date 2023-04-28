@@ -26,21 +26,31 @@ public class JdbcTransferDao implements TransferDao {
 
     @Override
     public List<Transfer> findTransfersByUserId(int userId) {
-        String sql = "SELECT transfer_id, user_id, sender_account_id, receiver_account_id, transfer_amount" +
-                " FROM transfer JOIN account ON transfer.receiver_account_id = account.account_id" +
-                " JOIN tenmo_user ON account.user_id = tenmo_user.user_id" +
-                " WHERE account.user_id = ?";
+        String sql = "SELECT transfer_id, transfer.user_id, (SELECT username FROM tenmo_user WHERE tenmo_user.user_id = transfer.user_id) AS sender_username, \n" +
+                "\tsender_account_id, tenmo_user.username, receiver_account_id, transfer_amount\n" +
+                "FROM transfer JOIN account ON transfer.receiver_account_id = account.account_id\n" +
+                "\tJOIN tenmo_user ON account.user_id = tenmo_user.user_id \n" +
+                "\tWHERE transfer.user_id = ? OR account.user_id = ?;";
         List<Transfer> transferList = new ArrayList<>();
 
         try{
+
             SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId, userId);
             while(result.next()){
+            Transfer resultTransfer = new Transfer();
+            resultTransfer.setTransferId(result.getInt("transfer_id"));
+            resultTransfer.setSenderUserId(result.getInt("user_id"));
+            resultTransfer.setSenderUserName(result.getString("sender_username"));
+            resultTransfer.setSenderAccountId(result.getInt("sender_account_id"));
+            resultTransfer.setReceiverUserName(result.getString("username"));
+            resultTransfer.setReceiverAccountId(result.getInt("receiver_account_id"));
+            resultTransfer.setTransferAmount(result.getBigDecimal("transfer_amount"));
 
-                transferList.add(mapRowToTransfer(result));
-
+            transferList.add(resultTransfer);
             }
         } catch (Exception e) {
             //TODO
+            e.printStackTrace();
             System.out.println("Try again motherfucker");
         }
 
