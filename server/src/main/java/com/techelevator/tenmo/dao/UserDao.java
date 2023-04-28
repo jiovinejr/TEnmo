@@ -7,6 +7,8 @@ import java.util.List;
 public interface UserDao {
 
     List<User> findAll();
+    //TODO added this***
+    List<String> listUsersForTransfer(String username);
 
     User findByUsername(String username);
 

@@ -19,6 +19,9 @@ public interface AccountDao {
 
     BigDecimal findAccountBalanceByUserId(int userId);
 
+    //TODO added this***
+    boolean validateTransfer(Transfer transfer);
+
 
 
 }

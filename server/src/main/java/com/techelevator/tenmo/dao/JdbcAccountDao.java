@@ -24,18 +24,18 @@ public class JdbcAccountDao implements AccountDao{
         return null;
     }
 
-
+    //TODO updated this**
     @Override
     public BigDecimal showCurrentBalance(String username) {
-        String sql = "SELECT balance FROM account" +
+        String sql = "SELECT account.user_id, account_id, balance FROM account" +
                 " JOIN tenmo_user ON account.user_id = tenmo_user.user_id" +
                 " WHERE username = ?";
-        BigDecimal balance = new BigDecimal("0.00");
+        Account account = new Account();
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, username);
         if (result.next()) {
-            balance = result.getBigDecimal("balance");
+            account = mapRowToAcct(result);
         }
-        return balance;
+        return account.getBalance();
     }
 
     @Override
@@ -72,17 +72,23 @@ public class JdbcAccountDao implements AccountDao{
         }
         return balance;
     }
+    //TODO added this****
+    @Override
+    public boolean validateTransfer(Transfer transfer) {
+        boolean isValid = false;
+        BigDecimal senderBalance = findAccountBalanceByUserId(transfer.getSenderUserId());
+        if (senderBalance.compareTo(transfer.getTransferAmount()) >= 0) {
+            isValid = true;
+        }
+        return isValid;
+    }
 
 
     private Account mapRowToAcct(SqlRowSet rowSet) {
         Account account = new Account();
         account.setAccountId(rowSet.getInt("account_id"));
         account.setUserId(rowSet.getInt("user_id"));
-        if (rowSet.getBigDecimal("balance") == null){
-            System.out.println("this null shit");
-        } else {
-            account.setBalance(rowSet.getBigDecimal("balance"));
-        }
+        account.setBalance(rowSet.getBigDecimal("balance"));
         return account;
     }
 
