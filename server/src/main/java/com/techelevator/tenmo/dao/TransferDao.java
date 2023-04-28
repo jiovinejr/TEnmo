@@ -10,7 +10,7 @@ public interface TransferDao {
 
     List<Transfer> findTransfersByUserId(int userId);
 
-    Transfer findTransferByTransferId(int transferId);
+    Transfer findTransferByTransferId(int userId, int transferId);
 
     Transfer createTransfer(Transfer transfer);
 

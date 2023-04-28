@@ -58,8 +58,36 @@ public class JdbcTransferDao implements TransferDao {
     }
 
     @Override
-    public Transfer findTransferByTransferId(int transferId) {
-        return null;
+    public Transfer findTransferByTransferId(int userId, int transferId) {
+        String sql = "SELECT transfer_id, transfer.user_id, (SELECT username FROM tenmo_user WHERE tenmo_user.user_id = transfer.user_id) AS sender_username, \n" +
+                "\tsender_account_id, tenmo_user.username, receiver_account_id, transfer_amount\n" +
+                "FROM transfer JOIN account ON transfer.receiver_account_id = account.account_id\n" +
+                "\tJOIN tenmo_user ON account.user_id = tenmo_user.user_id \n" +
+                "\tWHERE (transfer.user_id = ? OR account.user_id = ?) AND transfer_id = ?;";
+       Transfer resultTransfer = new Transfer();
+
+        try{
+
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId, userId, transferId);
+            if(result.next()){
+
+                resultTransfer.setTransferId(result.getInt("transfer_id"));
+                resultTransfer.setSenderUserId(result.getInt("user_id"));
+                resultTransfer.setSenderUserName(result.getString("sender_username"));
+                resultTransfer.setSenderAccountId(result.getInt("sender_account_id"));
+                resultTransfer.setReceiverUserName(result.getString("username"));
+                resultTransfer.setReceiverAccountId(result.getInt("receiver_account_id"));
+                resultTransfer.setTransferAmount(result.getBigDecimal("transfer_amount"));
+
+            }
+        } catch (Exception e) {
+            //TODO
+            e.printStackTrace();
+            System.out.println("Try again motherfucker");
+        }
+
+        return resultTransfer;
+
     }
 
     @Override

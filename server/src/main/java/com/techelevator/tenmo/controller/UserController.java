@@ -72,4 +72,12 @@ public class UserController {
         int userId = userDao.findIdByUsername(principal.getName());
         return transferDao.findTransfersByUserId(userId);
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping(path = "/my-transfers/{id}")
+    public Transfer myTransfersById(Principal principal, @PathVariable int id) {
+
+        int userId = userDao.findIdByUsername(principal.getName());
+        return transferDao.findTransferByTransferId(userId, id);
+    }
 }
