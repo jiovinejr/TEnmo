@@ -52,7 +52,8 @@ public class UserController {
     public Transfer transfer(@RequestBody Transfer transfer) {
         System.out.println(transfer);
         if (transfer.getSenderAccountId() != transfer.getReceiverAccountId()) {
-            // senderbalance > transferAmount
+            // senderbalance > transferAmountgit add -A
+            
             if (accountDao.validateTransfer(transfer)) {
                 accountDao.creditAccount(transfer);
                 accountDao.debitAccount(transfer);
