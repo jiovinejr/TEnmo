@@ -31,4 +31,24 @@ public class JdbcTransferDaoTest extends BaseDaoTests{
         Assert.assertEquals(0, listOfTransfers.size());
     }
 
+    @Test
+    public void findTransfersByTransferId(){
+        Transfer transfer = new Transfer();
+        transfer = sut.findTransferByTransferId(1001, 3001);
+        Assert.assertNotNull(transfer);
+    }
+
+    @Test
+    public void createTransfer(){
+        Transfer transfer = new Transfer();
+        transfer.setTransferAmount(new BigDecimal("50.00"));
+        transfer.setSenderUserName("bob");
+        transfer.setSenderUserId(1001);
+        transfer.setSenderAccountId(2001);
+        transfer.setReceiverUserName("user");
+        transfer.setReceiverAccountId(2002);
+        Transfer resultTransfer = sut.createTransfer(transfer);
+
+        Assert.assertEquals(transfer, resultTransfer);
+    }
 }

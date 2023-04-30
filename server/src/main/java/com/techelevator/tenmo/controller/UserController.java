@@ -38,15 +38,15 @@ public class UserController {
         return balance;
     }
 
-    //TODO updated this***
+
     @PreAuthorize("isAuthenticated()")
     @GetMapping(path = "/get-users")
     public List<String> getListOfUsersForTransfer(Principal principal) {
         return userDao.listUsersForTransfer(principal.getName());
     }
 
-    //TODO updated this***
-    //@Transactional
+
+    @Transactional (rollbackFor = { ResponseStatusException.class })
     @PreAuthorize("isAuthenticated()")
     @PostMapping(path = "/transfer")
     public Transfer transfer(@RequestBody Transfer transfer) {

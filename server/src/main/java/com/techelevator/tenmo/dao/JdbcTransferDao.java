@@ -49,9 +49,9 @@ public class JdbcTransferDao implements TransferDao {
             transferList.add(resultTransfer);
             }
         } catch (Exception e) {
-            //TODO
+
             e.printStackTrace();
-            System.out.println("Try again motherfucker");
+            System.out.println("No transactions were found");
         }
 
         return transferList;
@@ -81,9 +81,8 @@ public class JdbcTransferDao implements TransferDao {
 
             }
         } catch (Exception e) {
-            //TODO
             e.printStackTrace();
-            System.out.println("Try again motherfucker");
+            System.out.println("No transactions were found");
         }
 
         return resultTransfer;
@@ -110,7 +109,7 @@ public class JdbcTransferDao implements TransferDao {
                     transfer.getSenderAccountId(), transfer.getReceiverAccountId(), transfer.getTransferAmount());
             transfer.setTransferId(newTransferId);
         } catch (Exception e) {
-            //TODO
+            System.out.println("Transfer not created");
             e.printStackTrace();
         }
         return transfer;

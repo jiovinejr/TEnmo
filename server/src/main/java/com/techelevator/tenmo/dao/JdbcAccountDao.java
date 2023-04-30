@@ -24,7 +24,7 @@ public class JdbcAccountDao implements AccountDao{
         return null;
     }
 
-    //TODO updated this**
+
     @Override
     public BigDecimal showCurrentBalance(String username) {
         String sql = "SELECT account.user_id, account_id, balance FROM account" +
@@ -67,12 +67,12 @@ public class JdbcAccountDao implements AccountDao{
                 balance = result.getBigDecimal("balance");
             }
         } catch (Exception e) {
-            //TODO
-            System.out.println("this is fucked");
+
+            System.out.println("No account found");
         }
         return balance;
     }
-    //TODO added this****
+
     @Override
     public boolean validateTransfer(Transfer transfer) {
         boolean isValid = false;
