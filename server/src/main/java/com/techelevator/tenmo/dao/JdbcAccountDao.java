@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.security.Principal;
 
 @Component
-public class JdbcAccountDao implements AccountDao{
+public class JdbcAccountDao implements AccountDao {
 
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
@@ -61,9 +61,9 @@ public class JdbcAccountDao implements AccountDao{
         String sql = "SELECT balance FROM account " +
                 " WHERE user_id = ?";
         BigDecimal balance = new BigDecimal("0.00");
-        try{
-            SqlRowSet result = jdbcTemplate.queryForRowSet(sql,userId);
-            if(result.next()) {
+        try {
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId);
+            if (result.next()) {
                 balance = result.getBigDecimal("balance");
             }
         } catch (Exception e) {
@@ -77,8 +77,11 @@ public class JdbcAccountDao implements AccountDao{
     public boolean validateTransfer(Transfer transfer) {
         boolean isValid = false;
         BigDecimal senderBalance = findAccountBalanceByUserId(transfer.getSenderUserId());
-        if (senderBalance.compareTo(transfer.getTransferAmount()) >= 0 && transfer.getTransferAmount().compareTo(new BigDecimal("0")) > 0) {
-            isValid = true;
+        if (senderBalance.compareTo(transfer.getTransferAmount()) >= 0
+                && transfer.getTransferAmount().compareTo(new BigDecimal("0")) > 0) {
+            if (transfer.getSenderAccountId() != transfer.getReceiverAccountId()) {
+                isValid = true;
+            }
         }
         return isValid;
     }
